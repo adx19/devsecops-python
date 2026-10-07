@@ -162,11 +162,14 @@ jobs:
         run: |
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
-      - name: Debug backend pod
+
+      - name: Wait for pods to start
         run: |
+          sleep 20
           kubectl get pods -n taskboard -o wide
           kubectl describe pods -n taskboard
-          kubectl logs -l app=taskboard-backend -n taskboard --tail=100 || true
+          kubectl get events -n taskboard --sort-by=.lastTimestamp
+
       - name: Wait for backend pod to be ready
         run: |
           kubectl wait --for=condition=ready pod \
