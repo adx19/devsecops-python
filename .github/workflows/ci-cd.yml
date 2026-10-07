@@ -162,7 +162,13 @@ jobs:
         run: |
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
+      - name: Debug containers
+        run: |
+          echo "=== BACKEND LOGS ==="
+          kubectl logs -l app=taskboard-backend -n taskboard --tail=100 || true
 
+          echo "=== FRONTEND LOGS ==="
+          kubectl logs -l app=taskboard-frontend -n taskboard --tail=100 || true
       - name: Wait for pods to start
         run: |
           sleep 20
