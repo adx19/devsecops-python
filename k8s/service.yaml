@@ -25,3 +25,18 @@ spec:
       port: 80
       targetPort: 80
   type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: taskboard
+spec:
+  selector:
+    app: taskboard-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
